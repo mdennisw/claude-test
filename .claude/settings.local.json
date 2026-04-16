@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh --version)",
+      "Bash(git --version)",
+      "Bash(git remote *)",
+      "Bash(git fetch *)"
+    ]
+  }
+}

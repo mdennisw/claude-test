@@ -1,0 +1,11 @@
+command: ["python", "app.py"]
+
+env:
+  - name: DATABASE_ID
+    valueFrom: postgres
+
+  - name: LAKEBASE_USER
+    value: dash-app-dev    
+
+  - name: LAKEBASE_PASSWORD
+    value: npg_X6qhYRAs3GNb

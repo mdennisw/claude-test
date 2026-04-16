@@ -1,0 +1,4 @@
+dash>=2.16.0
+dash-bootstrap-components>=1.6.0
+psycopg2-binary>=2.9.0
+pandas>=2.0.0
