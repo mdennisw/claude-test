@@ -280,15 +280,17 @@ MONO = "IBM Plex Mono, monospace"
 SANS = "IBM Plex Sans, sans-serif"
 
 C = {
-    "bg0":    "#f4f6fb",
-    "bg1":    "#ffffff",
-    "bg2":    "#f0f3f9",
-    "bg3":    "#e8ecf5",
-    "border": "#d0d8ee",
-    "text":   "#1a2035",
-    "text2":  "#4a5680",
-    "text3":  "#8893b8",
-    "accent": "#2563eb",
+    "bg0":    "#f5f7ff",   # soft indigo-tinted page background
+    "bg1":    "#ffffff",   # card surface
+    "bg2":    "#f0f2fc",   # input background
+    "bg3":    "#e5e8f8",   # table header / muted surface
+    "border": "#d1d5f0",   # subtle border
+    "text":   "#111827",   # near-black body text
+    "text2":  "#374151",   # secondary text
+    "text3":  "#6b7280",   # muted / label text
+    "accent": "#4f46e5",   # indigo-600 — primary action color
+    "accent2": "#eef2ff",  # indigo-50 — selected row highlight
+    "nav":    "#1e1b4b",   # indigo-950 — dark navbar
     "green":  "#059669",
     "amber":  "#d97706",
     "red":    "#dc2626",
@@ -297,10 +299,11 @@ C = {
 card = {
     "backgroundColor": C["bg1"],
     "border": f"1px solid {C['border']}",
-    "borderRadius": "8px",
-    "padding": "20px",
+    "borderRadius": "10px",
+    "padding": "22px 24px",
     "marginBottom": "20px",
     "fontFamily": SANS,
+    "boxShadow": "0 1px 4px rgba(79,70,229,0.06), 0 0 0 1px rgba(79,70,229,0.04)",
 }
 
 inp = {
@@ -333,7 +336,7 @@ lbl = {
 tbl_header = {
     "backgroundColor": C["bg3"],
     "color": C["text2"],
-    "fontWeight": "600",
+    "fontWeight": "700",
     "fontSize": "11px",
     "textTransform": "uppercase",
     "letterSpacing": "0.06em",
@@ -359,10 +362,10 @@ tbl_cell = {
 
 def sec(title):
     return html.Div(title, style={
-        "fontSize": "11px", "fontWeight": "600", "color": C["text3"],
-        "textTransform": "uppercase", "letterSpacing": "0.08em",
+        "fontSize": "11px", "fontWeight": "700", "color": C["accent"],
+        "textTransform": "uppercase", "letterSpacing": "0.09em",
         "paddingBottom": "10px", "marginBottom": "14px",
-        "borderBottom": f"1px solid {C['border']}",
+        "borderBottom": f"2px solid {C['accent2']}",
     })
 
 def fld(label, component, required=False):
@@ -387,18 +390,20 @@ def make_toast(tid, header, icon):
 navbar = html.Div(html.Div([
     html.Div([
         html.Div("RM", style={
-            "width":"28px","height":"28px","background":C["accent"],"borderRadius":"6px",
+            "width":"30px","height":"30px","background":C["accent"],"borderRadius":"8px",
             "display":"flex","alignItems":"center","justifyContent":"center",
             "fontSize":"11px","fontWeight":"700","color":"#fff","fontFamily":MONO,
+            "boxShadow": "0 0 0 2px rgba(255,255,255,0.15)",
         }),
         html.Span("Azimuth GRC Rules Manager", style={"fontSize":"15px","fontWeight":"600",
-                                           "color":C["text"],"fontFamily":SANS}),
-    ], style={"display":"flex","alignItems":"center","gap":"10px"}),
+                                           "color":"#f1f5f9","fontFamily":SANS}),
+    ], style={"display":"flex","alignItems":"center","gap":"12px"}),
     html.Span("Databricks · Lakebase",
-              style={"fontSize":"11px","color":C["text3"],"fontFamily":MONO}),
+              style={"fontSize":"11px","color":"#94a3b8","fontFamily":MONO}),
 ], style={"display":"flex","alignItems":"center","justifyContent":"space-between",
-          "padding":"0 24px","height":"52px"}),
-style={"backgroundColor":C["bg1"],"borderBottom":f"1px solid {C['border']}","marginBottom":"24px"})
+          "padding":"0 28px","height":"54px"}),
+style={"backgroundColor":C["nav"],"borderBottom":"none","marginBottom":"24px",
+       "boxShadow":"0 2px 12px rgba(30,27,75,0.25)"})
 
 
 # ── Tab 1: Rules Library ──────────────────────────────────────────────────────
@@ -448,7 +453,7 @@ rules_table_card = html.Div([
         style_header=tbl_header,
         style_cell=tbl_cell,
         style_data_conditional=[
-            {"if":{"state":"selected"},"backgroundColor":"#eff6ff","border":f"1px solid {C['accent']}"},
+            {"if":{"state":"selected"},"backgroundColor":C["accent2"],"border":f"1px solid {C['accent']}"},
             {"if":{"column_id":"rule_id"},"fontFamily":MONO,"color":C["accent"],"fontWeight":"600"},
             {"if":{"column_id":"version"},"fontFamily":MONO,"color":C["text3"]},
             {"if":{"column_id":"ruletype","filter_query":'{ruletype} = "Calculation"'},"color":C["amber"]},
@@ -497,7 +502,7 @@ exec_table_card = html.Div([
         style_header=tbl_header,
         style_cell=tbl_cell,
         style_data_conditional=[
-            {"if":{"state":"selected"},"backgroundColor":"#eff6ff","border":f"1px solid {C['accent']}"},
+            {"if":{"state":"selected"},"backgroundColor":C["accent2"],"border":f"1px solid {C['accent']}"},
             {"if":{"column_id":"test_id"},"fontFamily":MONO,"fontWeight":"600","color":C["amber"]},
             {"if":{"column_id":"rule_id"},"fontFamily":MONO,"color":C["accent"]},
             {"if":{"column_id":"ruleexecutionorder"},"fontFamily":MONO,"color":C["text3"],"textAlign":"center"},
@@ -541,7 +546,7 @@ tests_table_card = html.Div([
         style_header=tbl_header,
         style_cell=tbl_cell,
         style_data_conditional=[
-            {"if":{"state":"selected"},"backgroundColor":"#eff6ff","border":f"1px solid {C['accent']}"},
+            {"if":{"state":"selected"},"backgroundColor":C["accent2"],"border":f"1px solid {C['accent']}"},
             {"if":{"column_id":"test_id"},"fontFamily":MONO,"color":C["amber"],"fontWeight":"600"},
             {"if":{"column_id":"version"},"fontFamily":MONO,"color":C["text3"]},
         ],
@@ -578,9 +583,10 @@ app.layout = html.Div([
         ], id="tabs", active_tab="tab-rules"),
     ),
 
-    html.Div("Created By Dennis Williams", style={
+    html.Div("Created by Dennis Williams", style={
         "textAlign":"center","padding":"16px","fontSize":"11px","color":C["text3"],
         "fontFamily":MONO,"borderTop":f"1px solid {C['border']}","marginTop":"8px",
+        "backgroundColor":C["bg1"],
     }),
 ], style={"backgroundColor":C["bg0"],"minHeight":"100vh","fontFamily":SANS})
 
